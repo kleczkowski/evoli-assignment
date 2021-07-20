@@ -1,0 +1,69 @@
+cabal-version:              2.4
+name:                       evoli-assignment
+version:                    0.1.0
+synopsis:                   A Web service assignment by Evoli
+description:                Please refer to [README.md](https://github.com/kleczkowski/evoli-assignment#readme) file.
+homepage:                   https://github.com/kleczkowski/evoli-assignment
+bug-reports:                https://github.com/kleczkowski/evoli-assignment/issues
+license:                    MIT
+license-file:               LICENSE
+author:                     Konrad Kleczkowski
+maintainer:                 Konrad Kleczkowski <konrad.kleczkowski@gmail.com>
+copyright:                  2021 Konrad Kleczkowski
+category:                   Web, Assignment
+extra-source-files:         README.md
+tested-with:                GHC == 8.10.5
+
+common common-stanza
+    ghc-options:            -O2 
+                            -Wall -Wcompat 
+                            -fhide-source-paths
+                            -flate-specialise
+                            -fspecialise-aggressively
+    default-language:       Haskell2010
+    default-extensions:     OverloadedStrings
+                          , DerivingStrategies
+                          , DeriveAnyClass
+                          , DeriveGeneric
+
+                          -- extensions needed by polysemy
+                          , DataKinds
+                          , FlexibleContexts
+                          , GADTs
+                          , LambdaCase
+                          , PolyKinds
+                          , RankNTypes
+                          , ScopedTypeVariables
+                          , TypeApplications
+                          , TypeOperators
+                          , TypeFamilies
+    build-depends:          base                == 4.14.*
+                          , relude              == 1.0.*
+                          , polysemy            == 1.*
+    mixins:                 base hiding (Prelude)
+                          , relude (Relude as Prelude)
+                          , relude
+
+library
+    import:                 common-stanza
+    hs-source-dirs:         src
+    exposed-modules:        Evoli.Assignment.Main 
+    other-modules:          
+    build-depends:          
+
+executable evoli-assignment
+    import:                 common-stanza
+    hs-source-dirs:         app
+    main-is:                Main.hs
+    build-depends:          evoli-assignment
+
+test-suite evoli-assignment-tests
+    import:                 common-stanza
+    type:                   exitcode-stdio-1.0
+    hs-source-dirs:         test
+    main-is:                Main.hs
+    other-modules:          Spec
+    build-depends:          evoli-assignment
+                          , tasty               == 1.4.*
+                          , tasty-hspec         == 1.*
+                          , tasty-hedgehog      == 1.1.*

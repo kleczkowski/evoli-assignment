@@ -1,0 +1,8 @@
+cradle:
+  cabal:
+    - path: "./app"
+      component: "exe:evoli-assignment"
+    - path: "./src"
+      component: "lib:evoli-assignment"
+    - path: "./test"
+      component: "test:evoli-assignment-tests"
