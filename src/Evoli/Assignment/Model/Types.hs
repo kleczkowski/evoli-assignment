@@ -19,10 +19,10 @@ data Insurance tag = Insurance
     deriving anyclass   (FromJSON, ToJSON)
 
 -- | Phantom type indicating insurance quote.
-data Quote
+type Quote = "quote"
 
 -- | Phantom type indicating insurance policy.
-data Policy
+type Policy = "policy"
 
 -- | An insurance price.
 newtype InsurancePrice = InsurancePrice
