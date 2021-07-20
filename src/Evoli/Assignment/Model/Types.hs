@@ -3,18 +3,20 @@ module Evoli.Assignment.Model.Types where
 
 import Data.Aeson
 import Data.Time.Calendar
+import Data.Scientific
+import Servant (FromHttpApiData)
 
 -- | An unique applicant name.
 newtype Applicant = Applicant
   { applicantName :: Text
   } deriving stock      (Eq, Show, Ord)
-    deriving newtype    (FromJSON, ToJSON)
+    deriving newtype    (FromJSON, ToJSON, FromHttpApiData)
 
 -- | Barbie, tagged data type representing an insurance quote or policy.
 data Insurance tag = Insurance
-  { insuranceStartDate    :: !Day
-  , insuranceEndDate      :: !Day
-  , insuredItemPrice      :: !Rational
+  { insuranceStartDate :: !Day
+  , insuranceEndDate   :: !Day
+  , insuredItemPrice   :: !Scientific
   } deriving stock      (Eq, Show, Generic)
     deriving anyclass   (FromJSON, ToJSON)
 
@@ -26,7 +28,7 @@ type Policy = "policy"
 
 -- | An insurance price.
 newtype InsurancePrice = InsurancePrice
-  { insurancePrice :: Rational
+  { insurancePrice :: Scientific
   } deriving stock        (Eq, Show, Generic)
     deriving anyclass     (FromJSON, ToJSON)
 

@@ -16,7 +16,7 @@ runSqliteConnection
 runSqliteConnection = Input.runInputSem $ do
   cfg <- Input.input
   embed $ if storageInMemory cfg
-    then open ":inmemory:"
+    then open ":memory:"
     else open (storageFileName cfg)
 
 -- | Initialize sqlite database.
@@ -27,5 +27,5 @@ initializeTables
   => Sem r ()
 initializeTables = do
   conn <- Input.input
-  embed . execute_ conn $ "CREATE TABLE quotes   (applicant VARCHAR NOT NULL, start_date INTEGER NOT NULL, end_date INTEGER NOT NULL, insured_item_price INTEGER NOT NULL, PRIMARY_KEY(applicant));"
-  embed . execute_ conn $ "CREATE TABLE policies (applicant VARCHAR NOT NULL, start_date INTEGER NOT NULL, end_date INTEGER NOT NULL, insured_item_price INTEGER NOT NULL, PRIMARY_KEY(applicant));"
+  embed . execute_ conn $ "CREATE TABLE IF NOT EXISTS quotes   (applicant VARCHAR PRIMARY KEY, start_date INTEGER NOT NULL, end_date INTEGER NOT NULL, insured_item_price INTEGER NOT NULL);"
+  embed . execute_ conn $ "CREATE TABLE IF NOT EXISTS policies (applicant VARCHAR PRIMARY KEY, start_date INTEGER NOT NULL, end_date INTEGER NOT NULL, insured_item_price INTEGER NOT NULL);"

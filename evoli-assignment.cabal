@@ -51,6 +51,9 @@ library
     import:                 common-stanza
     hs-source-dirs:         src
     exposed-modules:        Evoli.Assignment.Main 
+    
+                            Evoli.Assignment.Config
+
                             Evoli.Assignment.Model
                             Evoli.Assignment.Model.Types
                             Evoli.Assignment.Model.Validation
@@ -59,23 +62,29 @@ library
 
                             Evoli.Assignment.Interfaces.Storage
 
+                            Evoli.Assignment.Adapters.Servant
                             Evoli.Assignment.Adapters.Servant.API
                             Evoli.Assignment.Adapters.Servant.Config
 
+                            Evoli.Assignment.Adapters.Sqlite
                             Evoli.Assignment.Adapters.Sqlite.Handler
                             Evoli.Assignment.Adapters.Sqlite.Model
                             Evoli.Assignment.Adapters.Sqlite.Config
                             Evoli.Assignment.Adapters.Sqlite.Connection
 
+                            Evoli.Assignment.Externals.Application
+
     build-depends:          aeson               == 1.5.*
                           , validation          == 1.1.*
                           , time                == 1.*
                           , polysemy-log        == 0.2.*
+                          , scientific          == 0.3.*
 
                           -- Servant
                           , servant             == 0.18.*
                           , servant-server      == 0.18.*
                           , servant-flatten     == 0.*
+                          , warp                == 3.3.*
 
                           -- Beam
                           , beam-core           == 0.9.*
@@ -84,6 +93,9 @@ library
 
                           -- dhall
                           , dhall               == 1.39.*
+
+                          -- optparse-applicative
+                          , optparse-applicative == 0.16.*
 
 
 executable evoli-assignment
@@ -108,3 +120,4 @@ test-suite evoli-assignment-tests
                           , tasty-hedgehog      == 1.1.*
                           , polysemy-log        == 0.2.*
                           , time                == 1.*
+                          , sqlite-simple       == 0.4.*

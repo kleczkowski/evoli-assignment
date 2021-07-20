@@ -16,6 +16,7 @@ import GHC.TypeLits
 import Polysemy
 import Polysemy.Input (Input)
 import qualified Polysemy.Input as Input
+import Evoli.Assignment.Adapters.Sqlite.Connection
 
 -- | Runs insurance storage using Beam.
 runBeamInsuranceStorage
@@ -27,7 +28,18 @@ runBeamInsuranceStorage
   => (forall f. Beam.InsuranceDb f -> f (TableEntity (Beam.InsuranceT tag))) -- ^ Table selector from @InsuranceDb@.
   -> Sem (UC.InsuranceStor tag ': r) a
   -> Sem r a
-runBeamInsuranceStorage tblSel = interpret $ \case
+runBeamInsuranceStorage tblSel s = initializeTables >> runBeamInsuranceStorage' tblSel s
+
+runBeamInsuranceStorage'
+  :: forall tag r a .
+     ( Embed IO `Member` r
+     , Input Connection `Member` r
+     , KnownSymbol tag
+     )
+  => (forall f. Beam.InsuranceDb f -> f (TableEntity (Beam.InsuranceT tag)))
+  -> Sem (UC.InsuranceStor tag ': r) a
+  -> Sem r a
+runBeamInsuranceStorage' tblSel = interpret $ \case
   StorageGet _ k    -> beamGet k tblSel
   StoragePut k v    -> beamPut k v tblSel
   StorageDelete _ k -> beamDelete k tblSel

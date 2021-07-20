@@ -6,9 +6,10 @@ import Evoli.Assignment.Model.Types
 import Data.Aeson (FromJSON, ToJSON)
 import Data.Time.Calendar
 import Data.Validation
+import Data.Scientific
 
 data QuoteValidationError
-  = InvalidItemPrice !Rational
+  = InvalidItemPrice !Scientific
   | InvalidDateRange !Day !Day
   | EmptyApplicantName !Applicant
   deriving stock (Eq, Show, Generic)
