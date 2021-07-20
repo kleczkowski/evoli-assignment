@@ -25,6 +25,9 @@ common common-stanza
                           , DerivingStrategies
                           , DeriveAnyClass
                           , DeriveGeneric
+                          , GeneralisedNewtypeDeriving
+                          , UndecidableInstances
+                          , StandaloneDeriving
 
                           -- extensions needed by polysemy
                           , DataKinds
@@ -49,7 +52,9 @@ library
     hs-source-dirs:         src
     exposed-modules:        Evoli.Assignment.Main 
     other-modules:          
-    build-depends:          
+    build-depends:          aeson               == 1.5.*
+                          , validation          == 1.1.*
+                          , time                == 1.*
 
 executable evoli-assignment
     import:                 common-stanza
