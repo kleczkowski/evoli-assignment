@@ -55,6 +55,7 @@ library
     build-depends:          aeson               == 1.5.*
                           , validation          == 1.1.*
                           , time                == 1.*
+                          , polysemy-log        == 0.2.*
 
 executable evoli-assignment
     import:                 common-stanza
