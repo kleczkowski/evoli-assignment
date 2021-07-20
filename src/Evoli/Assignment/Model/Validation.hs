@@ -16,7 +16,7 @@ data QuoteValidationError
 
 validateQuote :: Insurance Quote -> Validation [QuoteValidationError] (Insurance Quote)
 validateQuote Insurance{..} =
-  Insurance{..} 
+  Insurance{..}
     <$ checkDayRange insuranceStartDate insuranceEndDate
     <* checkItemPrice insuredItemPrice
   where

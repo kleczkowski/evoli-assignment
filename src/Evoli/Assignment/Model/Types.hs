@@ -7,7 +7,7 @@ import Data.Time.Calendar
 -- | An unique applicant name.
 newtype Applicant = Applicant
   { applicantName :: Text
-  } deriving stock      (Eq, Show)
+  } deriving stock      (Eq, Show, Ord)
     deriving newtype    (FromJSON, ToJSON)
 
 -- | Barbie, tagged data type representing an insurance quote or policy.

@@ -33,6 +33,8 @@ createQuote
   -> Insurance Quote
   -> Sem r InsurancePrice
 createQuote k insurance = do
+  when (null (toString (applicantName k))) $
+    Error.throw (QuoteValidationErrors [EmptyApplicantName k])
   valid <- validation (Error.throw . QuoteValidationErrors) pure 
          . validateQuote 
          $ insurance
@@ -68,7 +70,10 @@ acceptQuote
 acceptQuote k = do
   quote <- whenNothingM (Storage.storageGet (Proxy :: Proxy (Insurance Quote)) k) $ 
     Error.throw (InsuranceDoesNotExists k)
+  _ <- whenJustM (Storage.storageGet (Proxy :: Proxy (Insurance Policy)) k) . const $
+    Error.throw (InsuranceAlreadyExists k)
   Storage.storagePut k (toInsurancePolicy quote)
+  Storage.storageDelete (Proxy :: Proxy (Insurance Quote)) k
   Log.info ("Promoted quote to policy from applicant: " <> applicantName k)
 
 -- | Gets a policy from the storage.

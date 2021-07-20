@@ -51,7 +51,7 @@ library
     import:                 common-stanza
     hs-source-dirs:         src
     exposed-modules:        Evoli.Assignment.Main 
-    other-modules:          Evoli.Assignment.Model
+                            Evoli.Assignment.Model
                             Evoli.Assignment.Model.Types
                             Evoli.Assignment.Model.Validation
                             
@@ -98,7 +98,13 @@ test-suite evoli-assignment-tests
     hs-source-dirs:         test
     main-is:                Main.hs
     other-modules:          Spec
+                          , Evoli.Assignment.UseCaseSpec
+                          , Evoli.Assignment.Adapters.ServantSpec
+                          , Evoli.Assignment.Adapters.SqliteSpec
+                          , Evoli.Assignment.ExternalSpec
     build-depends:          evoli-assignment
                           , tasty               == 1.4.*
-                          , tasty-hspec         == 1.*
+                          , tasty-hunit         == 0.10.*
                           , tasty-hedgehog      == 1.1.*
+                          , polysemy-log        == 0.2.*
+                          , time                == 1.*
